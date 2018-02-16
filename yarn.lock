@@ -221,8 +221,9 @@ browserify-zlib@^0.1.4:
   dependencies:
     pako "~0.2.0"
 
-"bsatk@file:../../lib/cpp/bsatk":
+bsatk@Nexus-Mods/node-bsatk:
   version "1.0.0"
+  resolved "https://codeload.github.com/Nexus-Mods/node-bsatk/tar.gz/8170bc6b637fd5c95b3edd11d244ef617bf7af8f"
   dependencies:
     autogypi "^0.2.2"
     nbind "^0.3.5"
@@ -1937,8 +1938,9 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-"vortex-api@file:../../api":
+vortex-api@Nexus-Mods/vortex-api:
   version "0.0.1"
+  resolved "https://codeload.github.com/Nexus-Mods/vortex-api/tar.gz/12217552ca8bcd219be76d151d24037181fcf9a2"
 
 watchpack@^0.2.1:
   version "0.2.9"
