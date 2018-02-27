@@ -1,5 +1,5 @@
 import * as Promise from 'bluebird';
-import loadBSA, {BSAFile, BSAFolder, BSArchive} from 'bsatk';
+import {BSAFile, BSAFolder, BSArchive, createBSA, loadBSA} from 'bsatk';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
@@ -8,6 +8,7 @@ import {dir as tmpDir} from 'tmp';
 import { types } from 'vortex-api';
 
 const loadBSAasync = Promise.promisify(loadBSA);
+const createBSAasync = Promise.promisify(createBSA);
 
 class BSAHandler implements types.IArchiveHandler {
   private mBSA: BSArchive;
@@ -82,6 +83,33 @@ class BSAHandler implements types.IArchiveHandler {
     return pass;
   }
 
+  public addFile(filePath: string, sourcePath: string): Promise<void> {
+    const segments = filePath.split(path.sep);
+    let current = this.mBSA.root;
+    segments.forEach((segment, idx) => {
+      if (idx === segments.length - 1) {
+        current.addFile(this.mBSA.createFile(segment, sourcePath, false));
+      } else {
+        current = this.getSubfolder(current, segment);
+      }
+    });
+    return Promise.resolve();
+  }
+
+  public write(): Promise<void> {
+    this.mBSA.write();
+    return Promise.resolve();
+  }
+
+  private getSubfolder(base: BSAFolder, name: string): BSAFolder {
+    for (let i = 0; i < base.numSubFolders; ++i) {
+      if (base.getSubFolder(i).name.toLowerCase() === name.toLowerCase()) {
+        return base.getSubFolder(i);
+      }
+    }
+    return base.addFolder(name);
+  }
+
   private getFileImpl(folder: BSAFolder, filePath: string[], offset: number): BSAFile {
     if (offset === filePath.length - 1) {
       return this.getFiles(folder).find(file => file.name === filePath[offset]);
@@ -141,7 +169,10 @@ class BSAHandler implements types.IArchiveHandler {
 
 function createBSAHandler(fileName: string,
                           options: types.IArchiveOptions): Promise<types.IArchiveHandler> {
-  return loadBSAasync(fileName, options.verify === true)
+  const prom = (options as any).create
+    ? createBSAasync(fileName)
+    : loadBSAasync(fileName, options.verify === true);
+  return prom
   .then((archive: BSArchive) => new BSAHandler(archive));
 }
 
