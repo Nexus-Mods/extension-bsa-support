@@ -6,6 +6,10 @@
   version "8.4.2"
   resolved "https://registry.yarnpkg.com/@types/i18next/-/i18next-8.4.2.tgz#9f809c4a9d3687f7643254cde85b1127db616180"
 
+"@types/node@8.0.46":
+  version "8.0.46"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.46.tgz#6e1766b2d0ed06631d5b5f87bb8e72c8dbb6888e"
+
 "@types/rimraf@^0.0.28":
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/@types/rimraf/-/rimraf-0.0.28.tgz#5562519bc7963caca8abf7f128cae3b594d41d06"
