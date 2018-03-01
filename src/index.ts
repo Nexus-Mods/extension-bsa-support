@@ -169,7 +169,7 @@ class BSAHandler implements types.IArchiveHandler {
 
 function createBSAHandler(fileName: string,
                           options: types.IArchiveOptions): Promise<types.IArchiveHandler> {
-  const prom = (options as any).create
+  const prom = options.create
     ? createBSAasync(fileName)
     : loadBSAasync(fileName, options.verify === true);
   return prom
