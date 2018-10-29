@@ -13,16 +13,16 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@types/i18next": "^8.4.0",
-    "@types/rimraf": "^0.0.28",
     "@types/node": "8.0.46",
-    "bsatk": "Nexus-Mods/node-bsatk",
+    "@types/rimraf": "^0.0.28",
     "bluebird": "^3.5.1",
+    "bsatk": "Nexus-Mods/node-bsatk",
     "copyfiles": "^1.2.0",
     "electron-rebuild": "^1.5.7",
-    "vortex-api": "Nexus-Mods/vortex-api",
     "rimraf": "^2.6.1",
     "rm-local-modules": "^0.0.2",
     "ts-loader": "^3.5.0",
+    "vortex-api": "Nexus-Mods/vortex-api",
     "webpack": "^3.11.0"
   }
 }
