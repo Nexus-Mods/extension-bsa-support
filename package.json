@@ -5,7 +5,6 @@
   "main": "./out/index.js",
   "scripts": {
     "webpack": "webpack --config webpack.config.js --display-error-details --progress --profile --color",
-    "postinstall": "electron-rebuild -v 1.8.2 -w bsatk -t dev,prod",
     "copy_bsatk": "copyfiles -f ./node_modules/bsatk/build/Release/nbind.node ./dist/bsatk",
     "build": "npm run webpack && npm run copy_bsatk && extractInfo"
   },
@@ -18,7 +17,6 @@
     "bluebird": "^3.5.1",
     "bsatk": "Nexus-Mods/node-bsatk",
     "copyfiles": "^1.2.0",
-    "electron-rebuild": "^1.5.7",
     "rimraf": "^2.6.1",
     "rm-local-modules": "^0.0.2",
     "ts-loader": "^3.5.0",
