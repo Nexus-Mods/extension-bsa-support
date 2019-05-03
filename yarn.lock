@@ -354,8 +354,8 @@ browserify-zlib@^0.2.0:
     pako "~1.0.5"
 
 bsatk@Nexus-Mods/node-bsatk:
-  version "1.1.4"
-  resolved "https://codeload.github.com/Nexus-Mods/node-bsatk/tar.gz/a5506aea134a80f838bee2141021c91d4b6b03c0"
+  version "1.1.10"
+  resolved "https://codeload.github.com/Nexus-Mods/node-bsatk/tar.gz/7d3efa8a022d4c060207223f942e57bd98b9e28b"
   dependencies:
     autogypi "^0.2.2"
     nbind "^0.3.15"
