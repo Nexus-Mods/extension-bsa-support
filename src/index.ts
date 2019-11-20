@@ -1,4 +1,4 @@
-import * as Promise from 'bluebird';
+import Promise from 'bluebird';
 import {BSAFile, BSAFolder, BSArchive, createBSA, loadBSA} from 'bsatk';
 import * as fs from 'fs';
 import * as path from 'path';
