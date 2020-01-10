@@ -20,7 +20,7 @@
     "rimraf": "^2.6.1",
     "rm-local-modules": "^0.0.2",
     "ts-loader": "^6.0.4",
-    "vortex-api": "Nexus-Mods/vortex-api",
+    "vortex-api": "Nexus-Mods/Vortex-api#electron7",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.6"
   }
