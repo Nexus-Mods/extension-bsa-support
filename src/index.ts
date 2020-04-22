@@ -1,11 +1,9 @@
-import * as Promise from 'bluebird';
+import Promise from 'bluebird';
 import {BSAFile, BSAFolder, BSArchive, createBSA, loadBSA} from 'bsatk';
-import * as fs from 'fs';
 import * as path from 'path';
-import * as rimraf from 'rimraf';
 import { PassThrough } from 'stream';
 import {dir as tmpDir} from 'tmp';
-import { types } from 'vortex-api';
+import { fs, types } from 'vortex-api';
 
 const loadBSAasync = Promise.promisify(loadBSA);
 const createBSAasync = Promise.promisify(createBSA);
@@ -73,7 +71,7 @@ class BSAHandler implements types.IArchiveHandler {
         fileStream.on('data', (data) => pass.write(data));
         fileStream.on('end', () => {
           pass.end();
-          rimraf(tmpPath, () => undefined);
+          fs.removeAsync(tmpPath). catch(() => null);
         });
         fileStream.on('error', (err) => pass.emit('error', err));
         fileStream.on('readable', () => pass.emit('readable'));
