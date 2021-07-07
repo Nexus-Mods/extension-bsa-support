@@ -4,7 +4,7 @@
   "description": "Support for (old) gamebryo data archives",
   "main": "./out/index.js",
   "scripts": {
-    "webpack": "webpack --config webpack.config.js --display-error-details --progress --profile --color",
+    "webpack": "webpack --config webpack.config.js --progress --profile --color",
     "copy_bsatk": "copyfiles -f ./node_modules/bsatk/build/Release/nbind.node ./dist/bsatk",
     "build": "npm run webpack && npm run copy_bsatk && extractInfo"
   },
@@ -21,7 +21,7 @@
     "rm-local-modules": "^0.0.2",
     "ts-loader": "^6.0.4",
     "vortex-api": "Nexus-Mods/vortex-api",
-    "webpack": "^4.35.3",
-    "webpack-cli": "^3.3.6"
+    "webpack": "^5.43.0",
+    "webpack-cli": "^4.7.2"
   }
 }
