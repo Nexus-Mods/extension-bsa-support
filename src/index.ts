@@ -6,7 +6,7 @@ import {dir as tmpDir} from 'tmp';
 import { fs, types } from 'vortex-api';
 
 const loadBSAasync = Promise.promisify(loadBSA);
-const createBSAasync = Promise.promisify(createBSA);
+const createBSAasync = (fileName: string, cb: (arc: BSArchive) => void) => Promise.promisify(createBSA(fileName, cb as any));
 
 class BSAHandler implements types.IArchiveHandler {
   private mBSA: BSArchive;
@@ -168,7 +168,9 @@ class BSAHandler implements types.IArchiveHandler {
 function createBSAHandler(fileName: string,
                           options: types.IArchiveOptions): Promise<types.IArchiveHandler> {
   const prom = options.create
-    ? createBSAasync(fileName)
+    ? new Promise((resolve, reject) => createBSAasync(fileName, (arc: BSArchive) => {
+        return resolve(arc);
+    }))
     : loadBSAasync(fileName, options.verify === true);
   return prom
   .then((archive: BSArchive) => new BSAHandler(archive));
