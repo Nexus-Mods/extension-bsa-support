@@ -99,6 +99,11 @@ class BSAHandler implements types.IArchiveHandler {
     return Promise.resolve();
   }
 
+  public closeArchive(): Promise<void> {
+    this.mBSA.closeArchive();
+    return Promise.resolve();
+  }
+
   private getSubfolder(base: BSAFolder, name: string): BSAFolder {
     for (let i = 0; i < base.numSubFolders; ++i) {
       if (base.getSubFolder(i).name.toLowerCase() === name.toLowerCase()) {
