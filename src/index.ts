@@ -1,12 +1,9 @@
-import Promise from 'bluebird';
+import PromiseBB from 'bluebird';
 import {BSAFile, BSAFolder, BSArchive, createBSA, loadBSA} from 'bsatk';
 import * as path from 'path';
 import { PassThrough } from 'stream';
 import {dir as tmpDir} from 'tmp';
-import { fs, types } from 'vortex-api';
-
-const loadBSAasync = Promise.promisify(loadBSA);
-const createBSAasync = (fileName: string, cb: (arc: BSArchive) => void) => Promise.promisify(createBSA(fileName, cb as any));
+import { fs, types, util } from 'vortex-api';
 
 class BSAHandler implements types.IArchiveHandler {
   private mBSA: BSArchive;
@@ -14,17 +11,17 @@ class BSAHandler implements types.IArchiveHandler {
     this.mBSA = bsa;
   }
 
-  public readDir(archPath: string): Promise<string[]> {
-    return Promise.resolve(this.readDirImpl(this.mBSA.root, archPath.split(path.sep), 0));
+  public readDir(archPath: string): PromiseBB<string[]> {
+    return PromiseBB.resolve(this.readDirImpl(this.mBSA.root, archPath.split(path.sep), 0));
   }
 
-  public extractFile(filePath: string, outputPath: string): Promise<void> {
+  public extractFile(filePath: string, outputPath: string): PromiseBB<void> {
     const file: BSAFile = this.getFileImpl(this.mBSA.root, filePath.split(path.sep), 0);
     if (file === undefined) {
-      return Promise.reject(new Error('file not found ' + filePath));
+      return PromiseBB.reject(new Error('file not found ' + filePath));
     }
 
-    return new Promise<void>((resolve, reject) => {
+    return new PromiseBB<void>((resolve, reject) => {
       this.mBSA.extractFile(file, outputPath, (readErr) => {
         if (readErr !== null) {
           reject(readErr);
@@ -34,8 +31,8 @@ class BSAHandler implements types.IArchiveHandler {
     });
   }
 
-  public extractAll(outputPath: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+  public extractAll(outputPath: string): PromiseBB<void> {
+    return new PromiseBB<void>((resolve, reject) => {
       this.mBSA.extractAll(outputPath, (readErr) => {
         if (readErr !== null) {
           reject(readErr);
@@ -81,7 +78,7 @@ class BSAHandler implements types.IArchiveHandler {
     return pass;
   }
 
-  public addFile(filePath: string, sourcePath: string): Promise<void> {
+  public addFile(filePath: string, sourcePath: string): PromiseBB<void> {
     const segments = filePath.split(path.sep);
     let current = this.mBSA.root;
     segments.forEach((segment, idx) => {
@@ -91,17 +88,17 @@ class BSAHandler implements types.IArchiveHandler {
         current = this.getSubfolder(current, segment);
       }
     });
-    return Promise.resolve();
+    return PromiseBB.resolve();
   }
 
-  public write(): Promise<void> {
+  public write(): PromiseBB<void> {
     this.mBSA.write();
-    return Promise.resolve();
+    return PromiseBB.resolve();
   }
 
-  public closeArchive(): Promise<void> {
+  public closeArchive(): PromiseBB<void> {
     this.mBSA.closeArchive();
-    return Promise.resolve();
+    return PromiseBB.resolve();
   }
 
   private getSubfolder(base: BSAFolder, name: string): BSAFolder {
@@ -171,14 +168,13 @@ class BSAHandler implements types.IArchiveHandler {
 }
 
 function createBSAHandler(fileName: string,
-                          options: types.IArchiveOptions): Promise<types.IArchiveHandler> {
-  const prom = options.create
-    ? new Promise((resolve, reject) => createBSAasync(fileName, (arc: BSArchive) => {
-        return resolve(arc);
-    }))
-    : loadBSAasync(fileName, options.verify === true);
-  return prom
-  .then((archive: BSArchive) => new BSAHandler(archive));
+                          options: types.IArchiveOptions)
+                          : PromiseBB<types.IArchiveHandler> {
+  return PromiseBB.resolve((async () => (options.create)
+    ? util.toPromise(cb => createBSA(fileName, cb))
+    : util.toPromise(cb => loadBSA(fileName, options.verify === true, cb)))
+    ())
+    .then((arc: BSArchive) => Promise.resolve(new BSAHandler(arc)));
 }
 
 function init(context: types.IExtensionContext) {
