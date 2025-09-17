@@ -459,9 +459,9 @@ browserslist@^4.24.0:
     node-releases "^2.0.21"
     update-browserslist-db "^1.1.3"
 
-bsatk@Nexus-Mods/node-bsatk#fix-node22:
+bsatk@Nexus-Mods/node-bsatk:
   version "2.1.0"
-  resolved "https://codeload.github.com/Nexus-Mods/node-bsatk/tar.gz/c10cc1a82a21f219aea393d85d2d850677c09ea8"
+  resolved "https://codeload.github.com/Nexus-Mods/node-bsatk/tar.gz/0e4f9b09996cc6606339580734050724ee6a44c3"
   dependencies:
     autogypi "^0.2.2"
     node-addon-api "^8.5.0"
